@@ -7,7 +7,7 @@
 int main() {
     FILE *file;
     int num_elements,i; 
-    int *vector;
+    
     int padre=getpid();
     int fd1[2],fd2[2]; //dos tuberias 
     if (pipe(fd1)==-1)
@@ -36,12 +36,15 @@ int main() {
     }
 
     // Aloca memoria para el vector
+    int *vector;
     vector = (int *)malloc(num_elements * sizeof(int));
     if (vector == NULL) {
         perror("Error al alocar memoria");
         fclose(file);
         return EXIT_FAILURE;
     }
+
+    
     int mitad=num_elements/2;
     // Lee el resto de los enteros y guárdalos en el vector
     for (int i = 0; i < num_elements; i++) {

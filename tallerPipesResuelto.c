@@ -1,9 +1,14 @@
+
+
 #include <stdio.h>    // Para funciones de entrada/salida como printf.
 #include <stdlib.h>   // Para la macro EXIT_SUCCESS.
 #include <unistd.h>   // Para las funciones pipe, fork, getpid, sleep, write y read.
 #include <string.h>   // Para funciones de manejo de strings como strlen.
-#include <sys/wait.h>
-#include <stdbool.h>
+#include <sys/wait.h> // Para la función wait.
+#include <stdbool.h>  // Para booleanos
+#include <signal.h>   // Para usar señales
+
+
 struct node
 {
     int id, i, j;
@@ -39,25 +44,28 @@ bool hay_mina(int **m, int r, int c, int i, int j){
 
 int main(){
     
-    int r, c, **dat, nh, id;
-    printf("Ingrese numero de hijos: ");
-    scanf("%d", &nh);
-    FILE *file=fopen("minas100x100.txt", "r");
+    int r, c, nh, id;
+
+    int **dat;
+    dat = (int **)malloc(r * sizeof(int *));
+    for (int i = 0; i < r; i++) {
+        dat[i] = (int *)malloc(c * sizeof(int));
+    }
+
+
     int fd[2];
     if (pipe(fd)==-1)
     {
     printf("Error al crear la tubería.");
     return EXIT_FAILURE;
     }
+
+    printf("Ingrese numero de hijos: ");
+    scanf("%d", &nh);
+    FILE *file=fopen("minas100x100.txt", "r");
     fscanf(file,"%d", &r);
     fscanf(file,"%d", &c);
-
     printf("%d-%d\n",r,c);
-    dat = (int **)malloc(r * sizeof(int *));
-    for (int i = 0; i < r; i++) {
-        dat[i] = (int *)malloc(c * sizeof(int));
-    }
-
     int num;
     for (int i = 0; i < r; i++)
     {

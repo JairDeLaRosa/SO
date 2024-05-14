@@ -5,13 +5,18 @@
 #include <sys/wait.h> // Para la función wait.
 #include <signal.h> 
 
+//Función que se realiza cuando se llama la señal
 void manejador (int sig){
     printf("Señal %d recibida \n", sig);
 }
 
 int main(){
     int i;
+
+    //Recibodor de señal
     signal(SIGUSR1, manejador);
+
+    //Guardar pits
     pid_t hijos[5];
     pid_t nietos[2];
     pid_t subNietos[2];
@@ -25,11 +30,13 @@ int main(){
             break;
         }
     }
+    //Creación de procesos nietos
     if (i==1||i==3)
     {
         switch (i)
         {
         case 1:
+        //Creación de procesos sub nietos
             nietos[0]=fork();
             if (nietos[0]==0)
             {
@@ -38,6 +45,7 @@ int main(){
             
             break;
         case 3:
+        //Creación de procesos sub nietos
             nietos[1]=fork();
             if (nietos[1]==0)
             {
@@ -50,7 +58,7 @@ int main(){
         }
     }
     if(root == getpid()){
-        usleep(10000);//pequeña pausa
+        usleep(10000);//pequeña pausa para esperar a los hijos, nietos y sub nietos
         printf("soy a y mi pid: %d \n",getpid()); // Imprime el padre
         kill(hijos[i-1], SIGUSR1); // manda la señal al hijo 
         pause();
@@ -59,8 +67,7 @@ int main(){
         {
             wait(NULL);
         }
-    }
-    if (getpid()!=root)
+    }else
     {
         pause(); // Todos los hijos esperan recibir la señal
         switch (i)
