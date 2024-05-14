@@ -72,20 +72,20 @@ int main(){
         case 1:
             if (nietos[0]!=0)
         {
-            printf("soy e y mi pid: %d \n",getpid());
+            printf("soy c y mi pid: %d \n",getpid());
             kill(nietos[0], SIGUSR1);
             pause();
-            printf("soy e y mi pid: %d \n",getpid());
+            printf("soy c  y mi pid: %d \n",getpid());
             kill(hijos[i-1], SIGUSR1);
         }else if (subNietos[0]!=0)
         {
-            printf("soy h y mi pid: %d \n",getpid());
+            printf("soy g   y mi pid: %d \n",getpid());
             kill(subNietos[0], SIGUSR1);
             pause();
-            printf("soy h y mi pid: %d \n",getpid());
+            printf("soy g y mi pid: %d \n",getpid());
             kill(getppid(), SIGUSR1);
         }else{
-            printf("soy j y mi pid: %d \n",getpid());
+            printf("soy i y mi pid: %d \n",getpid());
             kill(getppid(), SIGUSR1);
         }
             break;

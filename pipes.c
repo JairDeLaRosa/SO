@@ -63,22 +63,22 @@ int main() {
     if (padre==getpid())//padre
     {
         int suma1,suma2,total;
-        close(fd1[1]);
-        close(fd2[1]);
+        close(fd1[1]); //Escritura
+        close(fd2[1]); //Escritura
         wait(NULL);
         read(fd1[0],&suma1,sizeof(int));
         read(fd2[0],&suma2,sizeof(int));
         total=suma1+suma2;
         printf("El total de la suma es: %d \n", total);
-        close(fd1[0]);
-        close(fd2[0]);
+        close(fd1[0]); //Lectura
+        close(fd2[0]); //Lectura
     }
     
-    if (i==0)//hijo 1
+    if (i==0) //hijo 1
     {
-        close(fd1[0]);
-        close(fd2[0]);
-        close(fd2[1]);
+        close(fd1[0]); //Lectura
+        close(fd2[0]); //Lectura
+        close(fd2[1]); //Escritura
         /* code */
         
         int suma=0;
@@ -88,22 +88,23 @@ int main() {
         }
         printf("La suma del hijo 1 es: %d \n", suma);
         write(fd1[1],&suma,sizeof(int));
-        close(fd1[1]);
+        close(fd1[1]); //Escritura
     }
     if (i==1)//hijo 2
     {
-        close(fd2[0]);
-        close(fd1[0]);
-        close(fd1[1]);
+        close(fd2[0]); //Lectura
+        close(fd1[0]); //Lectura
+        close(fd1[1]); //Escritura
         /* code */
         int suma=0;
         for (int j = mitad; j < num_elements; j++)
         {
             suma=suma+vector[j];
-        }
+        }  
+        usleep(1000);
         printf("La suma del hijo 2 es: %d \n", suma);
         write(fd2[1],&suma,sizeof(int));
-        close(fd2[1]);
+        close(fd2[1]); //Escritura
     }
     
 
